@@ -2,6 +2,7 @@
 # CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/
 # ANormalWintrovert YT Channel: https://www.youtube.com/@ANormalWintrovert
 
+# imports
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -10,7 +11,7 @@ import os
 import platform
 import subprocess
 
-# ANSI escape codes for colors
+# escape codes for colors
 PURPLE = "\033[95m"
 RED = "\033[91m"
 YELLOW = "\033[93m"
@@ -27,34 +28,34 @@ PURPLE_TO_BLUE = [
     "\033[95m",  # Light Magenta
 ]
 
+# simple gradient for logo
 def gradient_text(text):
-    """Returns the text with each line colored in a gradient from purple to blue."""
     colored_text = ""
     for i, char in enumerate(text):
         color = PURPLE_TO_BLUE[i % len(PURPLE_TO_BLUE)]
         colored_text += f"{color}{char}"
     return colored_text + RESET_COLOR
 
+# to validate email format
 def validate_email(email):
-    """Validates email format."""
     pattern = r"[^@]+@[^@]+\.[^@]+"
     return re.match(pattern, email) is not None
 
+# to validate port number
 def validate_port(port):
-    """Validates if the port number is a valid integer between 1 and 65535."""
     try:
         port_num = int(port)
         return 1 <= port_num <= 65535
     except ValueError:
         return False
 
+# to clear the screen
 def clear_screen():
-    """Clears the terminal screen."""
-    if platform.system() == "Windows":
+    if platform.system() == "Windows"
         subprocess.call("cls", shell=True)
     else:
         subprocess.call("clear", shell=True)
-
+# main function
 def main():
     logo = [
         ".▄▄ · • ▌ ▄ ·. ▄▄▄▄▄ ▄▄▄· ▄▄▄· • ▌ ▄ ·.     ▄▄▄· ▄· ▄▌",
@@ -64,14 +65,14 @@ def main():
         " ▀▀▀▀ ▀▀  █▪▀▀▀ ▀▀▀ .▀    ▀  ▀ ▀▀  █▪▀▀▀ ▀ .▀     ▀ • ",
     ]
 
+    #to apply gradient to logo
     for line in logo:
         print(gradient_text(line))
 
-    print(LIGHT_BLUE + "Importing: smtplib, email.mime.text (MIMEText), email.mime.multipart (MIMEMultipart)..." + RESET_COLOR)
-    print(LIGHT_BLUE + "Done importing!\n" + RESET_COLOR)
+    print(LIGHT_BLUE + "Imported modules: smtplib MIMEText MIMEMultipart re os platform subprocess" + RESET_COLOR)
     
-    print(PURPLE + "SMTPAM.py 1.6\n" + RESET_COLOR)
-    print(PURPLE + "SMTPAM.py © 2024 by Subhrajit Sain (ANormalWintrovert) is licensed under CC BY-SA 4.0\n" + RESET_COLOR)
+    print(PURPLE + "SMTPAM.py 2.4\n" + RESET_COLOR)
+    print(PURPLE + "SMTPAM.py  2024 by Subhrajit Sain (ANormalWintrovert) is licensed under CC BY-SA 4.0\n" + RESET_COLOR)
 
     print(PURPLE + "Notes" + RESET_COLOR)
     print(PURPLE + "~~~~~\n" + RESET_COLOR)
@@ -87,6 +88,7 @@ def main():
     print(LIGHT_BLUE + "Step 2: Generate an 'Application Password' or any related password on your mail service." + RESET_COLOR)
     print(LIGHT_BLUE + "Step 3: Enter the things asked for, and the email will be sent." + RESET_COLOR)
 
+    # inputs
     print("\n" + PURPLE + "Addresses" + RESET_COLOR)
     print(PURPLE + "~~~~~~~~\n" + RESET_COLOR)
     
@@ -125,7 +127,7 @@ def main():
         print(YELLOW + "Message body is too long. Please enter a message with a maximum of 5000 characters." + RESET_COLOR)
         body = input(DARK_GREEN + "Enter message body (max 5000 characters): " + RESET_COLOR)
     
-    # Create the MIME object
+    # create the MIME object
     print("\n" + LIGHT_BLUE + "Creating MIME object..." + RESET_COLOR)
     message = MIMEMultipart()
     print(LIGHT_BLUE + "Adding 'From'..." + RESET_COLOR)
@@ -137,7 +139,7 @@ def main():
     print(LIGHT_BLUE + "Adding message body 'body'...\n" + RESET_COLOR)
     message.attach(MIMEText(body, 'plain'))
     
-    # Connect to the SMTP server and send the email
+    # connect to the SMTP server and send the email
     print(LIGHT_BLUE + f"Trying to connect to {smtp_server} using port {smtp_port}..." + RESET_COLOR)
     try:
         with smtplib.SMTP(smtp_server, int(smtp_port)) as server:
