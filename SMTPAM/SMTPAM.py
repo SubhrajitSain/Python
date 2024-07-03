@@ -51,7 +51,7 @@ def validate_port(port):
 
 # to clear the screen
 def clear_screen():
-    if platform.system() == "Windows"
+    if platform.system() == "Windows":
         subprocess.call("cls", shell=True)
     else:
         subprocess.call("clear", shell=True)
