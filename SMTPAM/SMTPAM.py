@@ -4,6 +4,7 @@
 
 # imports
 import datetime
+from email.mime.application import MIMEApplication
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -86,9 +87,9 @@ def main():
     for line in logo:
         print(gradient_text(line))
 
-    print(LIGHT_BLUE + "Imported modules: datetime smtplib MIMEText MIMEMultipart re os platform subprocess" + RESET_COLOR)
+    print(LIGHT_BLUE + "Imported modules: datetime MIMEApplication smtplib MIMEText MIMEMultipart re os platform subprocess" + RESET_COLOR)
     
-    print(PURPLE + "SMTPAM.py 2.5\n" + RESET_COLOR)
+    print(PURPLE + "SMTPAM.py 2.6\n" + RESET_COLOR)
     print(PURPLE + "SMTPAM.py  2024 by Subhrajit Sain (ANormalWintrovert) is licensed under CC BY-SA 4.0\n" + RESET_COLOR)
 
     print(PURPLE + "Notes" + RESET_COLOR)
@@ -183,6 +184,30 @@ def main():
     log("Added body.", "info")
     print(LIGHT_BLUE + "Adding message body 'body'...\n" + RESET_COLOR)
     message.attach(MIMEText(body, 'plain'))
+
+    # Ask for attachments
+    log("Asked for attachments.", "info")
+    print("\n" + PURPLE + "Attachments" + RESET_COLOR)
+    print(PURPLE + "~~~~~~~~~~\n" + RESET_COLOR)
+    attachments = []
+    while True:
+        attachment_path = input(DARK_GREEN + "Enter attachment file path (or 'done' to finish): " + RESET_COLOR)
+        if attachment_path.lower() == 'done':
+            break
+        if os.path.exists(attachment_path):
+            log(f"Added attachment: {attachment_path}", "info")
+            attachments.append(attachment_path)
+        else:
+            log(f"Attachment not found: {attachment_path}", "error")
+            print(RED + f"Error: Attachment not found at {attachment_path}" + RESET_COLOR)
+
+    # Add attachments to the message
+    for attachment_path in attachments:
+        with open(attachment_path, 'rb') as attachment_file:
+            attachment_data = attachment_file.read()
+        attachment_mime = MIMEApplication(attachment_data, Name=os.path.basename(attachment_path))
+        attachment_mime['Content-Disposition'] = f'attachment; filename="{os.path.basename(attachment_path)}"'
+        message.attach(attachment_mime)
     
     # connect to the SMTP server and send the email
     log(f"Trying to connect to SMTP server. Server: {smtp_server} Port: {smtp_port}", "info")
@@ -234,7 +259,7 @@ if __name__ == "__main__":
     while True:
         try:
             main()
-            log("Aking for restart.", "info")
+            log("Asking for restart.", "info")
             restart = input(DARK_GREEN + "\nDo you want to send another email? (yes/no): " + RESET_COLOR).strip().lower()
             if restart != 'yes':
                 log("Program terminated.", "info")
