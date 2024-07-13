@@ -199,7 +199,7 @@ def main():
             attachments.append(attachment_path)
         else:
             log(f"Attachment not found: {attachment_path}", "error")
-            print(RED + f"Error: Attachment not found at {attachment_path}" + RESET_COLOR)
+            print(RED + f"Error: Attachment not found at {attachment_path}. Please try again." + RESET_COLOR)
 
     # Add attachments to the message
     for attachment_path in attachments:
