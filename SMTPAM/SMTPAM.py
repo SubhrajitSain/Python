@@ -1,25 +1,77 @@
-# SMTPAM.py © 2024 by Subhrajit Sain (ANormalWintrovert) is licensed under CC BY-SA 4.0
-# CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/
-# ANormalWintrovert YT Channel: https://www.youtube.com/@ANormalWintrovert
+"""
+SMTPAM.py © 2024 by Subhrajit Sain (ANormalWintrovert) is licensed under CC BY-SA 4.0
+CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/
+ANormalWintrovert YT Channel: https://www.youtube.com/@ANormalWintrovert
+
+This script or python program is used to send emails using SMTP (Simple Mail Transfer Protocol) with support for attachments.
+
+Parameters:
+    - sender_email (str): The email address of the sender.
+    - recipient_email (str): The email adress of the recipient.
+    - smtp_smtp_server (str): The address of the SMTP server. Defaults to 'smtp.gmail.com'.
+    - smtp_port (int): The port number of the SMTP server. Defaults to 587.
+    - smtp_username (str): The username for the SMTP server. Defaults to the sender's email address.
+    - smtp_password (str): The application password for the SMTP server.
+    - subject (str): The subject of the email.
+    - body (str): The body of the email.
+    - attachments (list): A list of file paths for attachments.
+
+Execute:
+    Simply enter the following in your terminal to execute this program:
+    python SMTPAM.py
+
+"""
 
 # imports
-import datetime
-from email.mime.application import MIMEApplication
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-import re
-import os
-import platform
-import subprocess
+try:
+    from tqdm import tqdm
+    pbar = tqdm(total=9, desc="Importing modules...")
+    import datetime
+    pbar.update(1)
+    from email.mime.application import MIMEApplication
+    pbar.update(1)
+    import smtplib
+    pbar.update(1)
+    from email.mime.text import MIMEText
+    pbar.update(1)
+    from email.mime.multipart import MIMEMultipart
+    pbar.update(1)
+    import re
+    pbar.update(1)
+    import os
+    pbar.update(1)
+    import platform
+    pbar.update(1)
+    import subprocess
+    pbar.update(1)
+    pbar.close()
+except Exception as e:
+    pbar.close()
+    print("Failed to start SMTPAM.py. Some python modules may not be present.")
+    print(f"Error message: {e}")
 
+# to clear the screen
+def clear_screen():
+    if platform.system() == "Windows":
+        subprocess.call("cls", shell=True)
+    else:
+        subprocess.call("clear", shell=True)
+clear_screen()
+
+pbar = tqdm(total=7, desc="Setting constants...")
 # escape codes for colors
 PURPLE = "\033[95m"
+pbar.update(1)
 RED = "\033[91m"
+pbar.update(1)
 YELLOW = "\033[93m"
+pbar.update(1)
 DARK_GREEN = "\033[32m"
+pbar.update(1)
 LIGHT_BLUE = "\033[94m"
+pbar.update(1)
 RESET_COLOR = "\033[0m"
+pbar.update(1)
 
 # ANSI escape codes for purple to blue shades
 PURPLE_TO_BLUE = [
@@ -29,6 +81,9 @@ PURPLE_TO_BLUE = [
     "\033[94m",  # Light Blue
     "\033[95m",  # Light Magenta
 ]
+pbar.update(1)
+pbar.close()
+clear_screen()
 
 # simple gradient for logo
 def gradient_text(text):
@@ -50,13 +105,6 @@ def validate_port(port):
         return 1 <= port_num <= 65535
     except ValueError:
         return False
-
-# to clear the screen
-def clear_screen():
-    if platform.system() == "Windows":
-        subprocess.call("cls", shell=True)
-    else:
-        subprocess.call("clear", shell=True)
 
 # for logging
 def log(message, type):
@@ -83,13 +131,13 @@ def main():
         " ▀▀▀▀ ▀▀  █▪▀▀▀ ▀▀▀ .▀    ▀  ▀ ▀▀  █▪▀▀▀ ▀ .▀     ▀ • ",
     ]
 
-    #to apply gradient to logo
+    # to apply gradient to logo
     for line in logo:
         print(gradient_text(line))
 
-    print(LIGHT_BLUE + "Imported modules: datetime MIMEApplication smtplib MIMEText MIMEMultipart re os platform subprocess" + RESET_COLOR)
+    print(LIGHT_BLUE + "Imported modules: tqdm datetime MIMEApplication smtplib MIMEText MIMEMultipart re os platform subprocess" + RESET_COLOR)
     
-    print(PURPLE + "SMTPAM.py 2.6\n" + RESET_COLOR)
+    print(PURPLE + "SMTPAM.py 3.1\n" + RESET_COLOR)
     print(PURPLE + "SMTPAM.py  2024 by Subhrajit Sain (ANormalWintrovert) is licensed under CC BY-SA 4.0\n" + RESET_COLOR)
 
     print(PURPLE + "Notes" + RESET_COLOR)
@@ -99,7 +147,8 @@ def main():
     print(LIGHT_BLUE + "FOR ATTRIBUTION USE MY YOUTUBE CHANNEL (ANormalWintrovert) LINK: https://www.youtube.com/@ANormalWintrovert" + RESET_COLOR)
     print(LIGHT_BLUE + "YOU MAY ALSO USE: https://github.com/SubhrajitSain/Python/blob/main/SMTPAM/SMTPAM.py" + RESET_COLOR)
     print(LIGHT_BLUE + "ANY ACT OF NON-COOPERATION TO CC TERMS CAN LEAD TO YOUR MODDED VERSION TO BE TAKEN DOWN.\n" + RESET_COLOR)
-    
+    print(LIGHT_BLUE + "LOGS ARE STORED IN THE 'LOG' FOLDER IN THE CURRENT DIRECTORY.")
+
     print(PURPLE + "Short Instructions" + RESET_COLOR)
     print(PURPLE + "~~~~~~~~~~~~~~~~~~\n" + RESET_COLOR)
     print(LIGHT_BLUE + "Step 1: Enable '2 Step Verification' or any related feature on your mail service." + RESET_COLOR)
@@ -127,7 +176,7 @@ def main():
         print(RED + "Invalid email format. Please try again." + RESET_COLOR)
         recipient_email = input(DARK_GREEN + "Enter recipient's email address: " + RESET_COLOR)
     
-    # Email server configuration
+    # email server configuration
     print("\n" + PURPLE + "Email server config" + RESET_COLOR)
     print(PURPLE + "~~~~~~~~~~~~~~~~~~~\n" + RESET_COLOR)
     log("Asked SMTP server.", "info")
@@ -144,7 +193,7 @@ def main():
     log("Asked email application password.", "info")
     smtp_password = os.getenv('SMTP_PASSWORD') or input(DARK_GREEN + "Enter your email's application password: " + RESET_COLOR)
     
-    # Message content
+    # message content
     print("\n" + PURPLE + "Message content" + RESET_COLOR)
     print(PURPLE + "~~~~~~~~~~~~~~~\n" + RESET_COLOR)
     log("Asked message subject.", "info")
@@ -163,10 +212,20 @@ def main():
         print(YELLOW + "Message body is too long. Please enter a message with a maximum of 5000 characters." + RESET_COLOR)
         body = input(DARK_GREEN + "Enter message body (max 5000 characters): " + RESET_COLOR)
     
-    # Add hardcoded signature
-    log("Added signature to body.", "info")
+    # ask to add hardcoded signature
+    log("Asked to add hardcoded signature to body.", "info")
+    print(LIGHT_BLUE + "Normally, a hardcoded signature is sent to the recipient." + RESET_COLOR)
     signature = f"[This e-mail was sent from {sender_email} to {recipient_email} via {smtp_server} from port {smtp_port}. Sent using SMTPAM.py by Subhrajit Sain. https://github.com/SubhrajitSain/Python/blob/main/SMTPAM/SMTPAM.py]"
-    body += "\n\n" + signature
+    print(LIGHT_BLUE + f"If you agree, the following will be sent to your recipient at {recipient_email}")
+    print(LIGHT_BLUE + signature + RESET_COLOR)
+    include_signature = input(DARK_GREEN + "Do you wish to include this signature? (yes/no): ").strip().lower()
+    if include_signature == "yes":
+        log("Signature request accepted.", "info")
+        body += "\n\n" + signature
+        print(LIGHT_BLUE + "Signature will be added." + RESET_COLOR)
+    else:
+        log("Signature request declined.", "info")
+        print(LIGHT_BLUE + "Signature will not be added." + RESET_COLOR)
 
     # create the MIME object
     log("Created MIME object.", "info")
@@ -185,75 +244,107 @@ def main():
     print(LIGHT_BLUE + "Adding message body 'body'...\n" + RESET_COLOR)
     message.attach(MIMEText(body, 'plain'))
 
-    # Ask for attachments
+    # ask for attachments
     log("Asked for attachments.", "info")
     print("\n" + PURPLE + "Attachments" + RESET_COLOR)
     print(PURPLE + "~~~~~~~~~~\n" + RESET_COLOR)
     attachments = []
     while True:
-        attachment_path = input(DARK_GREEN + "Enter attachment file path (or 'done' to finish): " + RESET_COLOR)
-        if attachment_path.lower() == 'done':
-            break
-        if os.path.exists(attachment_path):
-            log(f"Added attachment: {attachment_path}", "info")
-            attachments.append(attachment_path)
-        else:
-            log(f"Attachment not found: {attachment_path}", "error")
-            print(RED + f"Error: Attachment not found at {attachment_path}. Please try again." + RESET_COLOR)
+        try:
+            attachment_path = input(DARK_GREEN + "Enter attachment file path (or 'done' to finish): " + RESET_COLOR)
+            if attachment_path.lower() == 'done':
+                break
+            if os.path.exists(attachment_path):
+                log(f"Added attachment: {attachment_path}", "info")
+                attachments.append(attachment_path)
+            else:
+                log(f"Attachment not found: {attachment_path}", "error")
+                print(RED + f"Error: Attachment not found at {attachment_path}. Please try again." + RESET_COLOR)
+        except IOError as e:
+            log(f"IOError while asking for attachment at {attachment_path}: {e}", "error")
+            print(RED + f"IOError. An input - output error occurred." + RESET_COLOR)
+        except Exception as e:
+            log(f"Unexpected error: {e}", "error")
+            print(RED + f"An unexpected error occured: {e}" + RESET_COLOR)
 
-    # Add attachments to the message
+    # add attachments to the message
+    print(LIGHT_BLUE + "Adding attachments to message body." + RESET_COLOR)
+    pbar = tqdm(total=len(attachments), desc="Please wait...")
     for attachment_path in attachments:
-        with open(attachment_path, 'rb') as attachment_file:
-            attachment_data = attachment_file.read()
-        attachment_mime = MIMEApplication(attachment_data, Name=os.path.basename(attachment_path))
-        attachment_mime['Content-Disposition'] = f'attachment; filename="{os.path.basename(attachment_path)}"'
-        message.attach(attachment_mime)
-    
+        try:
+            log(f"Attaching attachments to message. Current: {attachment_path}", "info")
+            with open(attachment_path, 'rb') as attachment_file:
+                attachment_data = attachment_file.read()
+            attachment_mime = MIMEApplication(attachment_data, Name=os.path.basename(attachment_path))
+            attachment_mime['Content-Disposition'] = f'attachment; filename="{os.path.basename(attachment_path)}"'
+            message.attach(attachment_mime)
+            pbar.update(1)
+        except IOError as e:
+            pbar.close()
+            log(f"IOError while attaching {attachment_path} to message: {e}", "error")
+            print(f"IOError. An input - output error occurred while attaching {attachment_path} to message.")
+        except Exception as e:
+            pbar.close()
+            log(f"Unexpected error: {e}", "error")
+            print(f"An unexpected error occurred: {e}")
+    pbar.close()
+
     # connect to the SMTP server and send the email
     log(f"Trying to connect to SMTP server. Server: {smtp_server} Port: {smtp_port}", "info")
     print(LIGHT_BLUE + f"Trying to connect to {smtp_server} using port {smtp_port}..." + RESET_COLOR)
     try:
         with smtplib.SMTP(smtp_server, int(smtp_port)) as server:
+            pbar = tqdm(total = 3, desc="Please wait...")
             log("Starting TTLS via SMTP.", "info")
-            print(LIGHT_BLUE + "Starting TTLS via SMTP..." + RESET_COLOR)
             server.starttls()
+            pbar.update(1)
             log("Started TTLS successfully.", "info")
             log("Logging in to SMTP server.", "info")
-            print(LIGHT_BLUE + "Logging in to mail server via SMTP..." + RESET_COLOR)
             server.login(smtp_username, smtp_password)
+            pbar.update(1)
             log("Logged in successfully.", "info")
             log("Sending email.", "info")
-            print(LIGHT_BLUE + f"Sending message to {recipient_email} via SMTP..." + RESET_COLOR)
             server.sendmail(sender_email, recipient_email, message.as_string())
+            pbar.update(1)
+            pbar.close()
             log("Email sent successfully.", "info")
             print(LIGHT_BLUE + "Email sent successfully." + RESET_COLOR)
     except smtplib.SMTPAuthenticationError:
+        pbar.close()
         log("SMTPAuthenticationError. Wrong username and/or password.", "error")
         print(RED + "Error: Authentication failed. Please check your email and application password." + RESET_COLOR)
     except smtplib.SMTPConnectError:
+        pbar.close()
         log("SMTPConnectError. Could not connect to SMTP server.", "error")
         print(RED + "Error: Failed to connect to the SMTP server. Please check the server address and port." + RESET_COLOR)
     except smtplib.SMTPRecipientsRefused:
+        pbar.close()
         log("SMTPRecipientsRefused. Recipent email refused.", "error")
         print(RED + "Error: The recipient's email address was refused by the server." + RESET_COLOR)
     except smtplib.SMTPDataError:
+        pbar.close()
         log("SMTPDataError. Server refused email data.", "error")
         print(RED + "Error: The SMTP server refused the email data." + RESET_COLOR)
     except smtplib.SMTPHeloError:
+        pbar.close()
         log("SMTPHeloError. Server did not respond to HELO command.", "error")
         print(RED + "Error: SMTP server didn't respond to the HELO command." + RESET_COLOR)
     except smtplib.SMTPResponseException:
+        pbar.close()
         log("SMTPResponseException. Server returned an unexpected response code.", "error")
         print(RED + "Error: SMTP server returned an unexpected response code." + RESET_COLOR)
     except smtplib.SMTPNotSupportedError:
+        pbar.close()
         log("SMTPNotSupportedError. Server does not support a specific function or command.", "error")
         print(RED + "Error: SMTP server doesn't support a specific feature or command." + RESET_COLOR)
     except smtplib.SMTPException as e:
+        pbar.close()
         log(f"SMTPException. SMTP error: {e}", "error")
         print(RED + f"SMTP error occurred: {e}" + RESET_COLOR)
     except Exception as e:
+        pbar.close()
         log(f"Exception. Unexpected error: {e}", "error")
-        print(RED + f"An unexpected error occurred: {e}" + RESET_COLOR)
+        print(RED + f"An unexpected error occurred [We were unable to guess the error.]: {e}" + RESET_COLOR)
 
 if __name__ == "__main__":
     while True:
