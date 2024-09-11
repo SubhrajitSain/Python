@@ -146,8 +146,8 @@ def main():
     print(LIGHT_BLUE + "YOU MUST OBEY THE CC TERMS GIVEN IN THE ABOVE LINK BEFORE PROCEEDING TO SHARE OR MODIFY THE CREATOR'S CODE." + RESET_COLOR)
     print(LIGHT_BLUE + "FOR ATTRIBUTION USE MY YOUTUBE CHANNEL (ANormalWintrovert) LINK: https://www.youtube.com/@ANormalWintrovert" + RESET_COLOR)
     print(LIGHT_BLUE + "YOU MAY ALSO USE: https://github.com/SubhrajitSain/Python/blob/main/SMTPAM/SMTPAM.py" + RESET_COLOR)
-    print(LIGHT_BLUE + "ANY ACT OF NON-COOPERATION TO CC TERMS CAN LEAD TO YOUR MODDED VERSION TO BE TAKEN DOWN.\n" + RESET_COLOR)
-    print(LIGHT_BLUE + "LOGS ARE STORED IN THE 'LOG' FOLDER IN THE CURRENT DIRECTORY.")
+    print(LIGHT_BLUE + "ANY ACT OF NON-COOPERATION TO CC TERMS CAN LEAD TO YOUR MODDED VERSION TO BE TAKEN DOWN." + RESET_COLOR)
+    print(LIGHT_BLUE + "LOGS ARE STORED IN THE 'LOG' FOLDER IN THE CURRENT DIRECTORY.\n")
 
     print(PURPLE + "Short Instructions" + RESET_COLOR)
     print(PURPLE + "~~~~~~~~~~~~~~~~~~\n" + RESET_COLOR)
@@ -206,6 +206,7 @@ def main():
 
     log("Asked message body.", "info")
     body = input(DARK_GREEN + "Enter message body (max 5000 characters): " + RESET_COLOR)
+
     while len(body) > 5000:
         log(f"Message body too long (>5000 chars). Body: {body}", "error")
         log("Asking message body again.", "info")
@@ -214,9 +215,9 @@ def main():
     
     # ask to add hardcoded signature
     log("Asked to add hardcoded signature to body.", "info")
-    print(LIGHT_BLUE + "Normally, a hardcoded signature is sent to the recipient." + RESET_COLOR)
+    print(LIGHT_BLUE + "\nNormally, a hardcoded signature is sent to the recipient." + RESET_COLOR)
     signature = f"[This e-mail was sent from {sender_email} to {recipient_email} via {smtp_server} from port {smtp_port}. Sent using SMTPAM.py by Subhrajit Sain. https://github.com/SubhrajitSain/Python/blob/main/SMTPAM/SMTPAM.py]"
-    print(LIGHT_BLUE + f"If you agree, the following will be sent to your recipient at {recipient_email}")
+    print(LIGHT_BLUE + f"If you agree, the following will be sent to your recipient at {recipient_email}\n")
     print(LIGHT_BLUE + signature + RESET_COLOR)
     include_signature = input(DARK_GREEN + "Do you wish to include this signature? (yes/no): ").strip().lower()
     if include_signature == "yes":
@@ -344,7 +345,7 @@ def main():
     except Exception as e:
         pbar.close()
         log(f"Exception. Unexpected error: {e}", "error")
-        print(RED + f"An unexpected error occurred [We were unable to guess the error.]: {e}" + RESET_COLOR)
+        print(RED + f"An unexpected error occurred (Probably no internet?): {e}" + RESET_COLOR)
 
 if __name__ == "__main__":
     while True:
